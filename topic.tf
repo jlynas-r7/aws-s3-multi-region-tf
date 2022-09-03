@@ -78,3 +78,19 @@ data "aws_iam_policy_document" "ext-ing-topic-policy-document-us-west-2" {
 
   }
 }
+
+resource "aws_sns_topic_subscription" "ext-ing-topic-us-east-1-lambda-topic-subscription" {
+  provider = aws.ext-ing-primary-region
+  endpoint  = "arn:aws:lambda:us-east-1:042293964381:function:insight-support-extensible-ingress-lambda"
+  protocol  = "lambda"
+  topic_arn = aws_sns_topic.ext-ing-topic-us-east-1.arn
+}
+
+
+resource "aws_sns_topic_subscription" "ext-ing-topic-us-west-2-lambda-topic-subscription" {
+  provider = aws.ext-ing-secondary-region
+  endpoint  = "arn:aws:lambda:us-east-1:042293964381:function:insight-support-extensible-ingress-lambda"
+  protocol  = "lambda"
+  topic_arn = aws_sns_topic.ext-ing-topic-us-west-2.arn
+}
+
