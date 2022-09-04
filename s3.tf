@@ -4,8 +4,8 @@ resource "aws_s3_bucket" "ext-ing-primary-region-bucket" {
   bucket = "ext-ing-bucket-us-east-1"
 
   tags = {
-    Product = "insight-support"
-    Name    = "insight-support-extensible-ingress-s3-mr"
+    Product = "ext-ing"
+    Name    = "ext-ing-s3-mr-us-east-1"
   }
 }
 
@@ -15,8 +15,8 @@ resource "aws_s3_bucket" "ext-ing-secondary-region-bucket" {
   bucket = "ext-ing-bucket-us-west-2"
 
   tags = {
-    Product = "insight-support"
-    Name    = "insight-support-extensible-ingress-s3-mr"
+    Product = "ext-ing"
+    Name    = "ext-ing-s3-mr-us-west-2"
   }
 }
 
