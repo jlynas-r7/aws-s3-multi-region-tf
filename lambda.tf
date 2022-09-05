@@ -53,28 +53,25 @@ data "aws_iam_policy_document" "ext-ing-lambda-policy-document" {
   }
 }
 
-#data "aws_iam_policy_document" "insight-support-dynamo-db-table-policy" {
-#  statement {
-#    effect  = "Allow"
-#    actions = [
-#      "dynamodb:Get*",
-#      "dynamodb:Delete*",
-#      "dynamodb:Update*",
-#      "dynamodb:PutItem"
-#    ]
-#    resources = ["arn:aws:dynamodb:*:*:table/insight-support-extensible-ingress"]
-#  }
-#  statement {
-#    effect  = "Allow"
-#    actions = [
-#      "logs:CreateLogGroup",
-#      "logs:CreateLogStream",
-#      "logs:PutLogEvents"
-#    ]
-#    resources = ["arn:aws:logs:*:*:*"]
-#  }
-#}
+data "aws_iam_policy_document" "ext-ing-primary-log-policy" {
+  provider = aws.ext-ing-primary-region
+  statement {
+    effect  = "Allow"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    resources = ["arn:aws:logs:*:*:*"]
+  }
+}
 
+resource "aws_iam_role_policy" "ext-ing-primary-log-notification-policy" {
+  provider = aws.ext-ing-primary-region
+  name     = "ext-ing-primary-log-notification-policy"
+  role     = aws_iam_role.ext-ing-lambda-iam-role.id
+  policy   = data.aws_iam_policy_document.ext-ing-primary-log-policy.json
+}
 
 
 #resource "aws_iam_role_policy" "insight-support-extensible-ingress-notification-policy" {
