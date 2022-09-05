@@ -1,6 +1,5 @@
 resource "aws_s3_bucket" "ext-ing-primary-region-bucket" {
   provider = aws.ext-ing-primary-region
-
   bucket = "ext-ing-bucket-us-east-1"
 
   tags = {
@@ -9,14 +8,36 @@ resource "aws_s3_bucket" "ext-ing-primary-region-bucket" {
   }
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "ext-ing-primary-region-bucket-encrytion" {
+  provider = aws.ext-ing-primary-region
+  bucket = aws_s3_bucket.ext-ing-primary-region-bucket.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "AES256"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "ext-ing-secondary-region-bucket" {
   provider = aws.ext-ing-secondary-region
-
   bucket = "ext-ing-bucket-us-west-2"
 
   tags = {
     Product = "ext-ing"
     Name    = "ext-ing-s3-mr-us-west-2"
+  }
+}
+
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "ext-ing-secondary-region-bucket-encrytion" {
+  provider = aws.ext-ing-secondary-region
+  bucket = aws_s3_bucket.ext-ing-secondary-region-bucket.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "AES256"
+    }
   }
 }
 
