@@ -64,6 +64,16 @@ data "aws_iam_policy_document" "ext-ing-primary-log-policy" {
     ]
     resources = ["arn:aws:logs:*:*:*"]
   }
+  statement {
+    effect  = "Allow"
+    actions = [
+      "dynamodb:Get*",
+      "dynamodb:Delete*",
+      "dynamodb:Update*",
+      "dynamodb:PutItem"
+    ]
+    resources = ["arn:aws:dynamodb:*:*:table/ext-ing-events-table"]
+  }
 }
 
 resource "aws_iam_role_policy" "ext-ing-primary-log-notification-policy" {
@@ -81,21 +91,21 @@ resource "aws_iam_role_policy" "ext-ing-primary-log-notification-policy" {
 #}
 #
 #
-#resource "aws_dynamodb_table" "insight-support-extensible-ingress" {
-#  name           = "insight-support-extensible-ingress"
-#  hash_key       = "id"
-#  billing_mode   = "PROVISIONED"
-#  read_capacity  = 20
-#  write_capacity = 20
-#  attribute {
-#    name = "id"
-#    type = "S"
-#  }
-#  tags = {
-#    Product = "insight-support"
-#    Name    = "insight-support-extensible-ingress-dynamodb-table"
-#  }
-#}
+resource "aws_dynamodb_table" "ext-ing-events-table" {
+  name           = "ext-ing-events-table"
+  hash_key       = "id"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 20
+  write_capacity = 20
+  attribute {
+    name = "id"
+    type = "S"
+  }
+  tags = {
+    Product = "ext-ing"
+    Name    = "ext-ing-events-dynamodb-table"
+  }
+}
 
 
 #resource "aws_appautoscaling_target" "insight-support-dynamodb-table-write-target" {
