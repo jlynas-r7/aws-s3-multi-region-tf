@@ -93,14 +93,23 @@ resource "aws_iam_role_policy" "ext-ing-primary-log-notification-policy" {
 #
 resource "aws_dynamodb_table" "ext-ing-events-table" {
   name           = "ext-ing-events-table"
-  hash_key       = "id"
+  hash_key       = "timestamp"
   billing_mode   = "PROVISIONED"
   read_capacity  = 20
   write_capacity = 20
   attribute {
-    name = "id"
+    name = "timestamp"
     type = "S"
   }
+
+  server_side_encryption {
+    enabled = true
+  }
+
+  point_in_time_recovery {
+    enabled = true
+  }
+
   tags = {
     Product = "ext-ing"
     Name    = "ext-ing-events-dynamodb-table"

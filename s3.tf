@@ -109,6 +109,7 @@ resource "aws_s3_bucket_notification" "ext-ing-primary-region-bucket-notificatio
   topic {
     topic_arn = aws_sns_topic.ext-ing-topic-us-east-1.arn
     events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*", "s3:LifecycleExpiration:Delete"]
+    filter_suffix = ".pdf"
   }
 }
 
@@ -119,6 +120,7 @@ resource "aws_s3_bucket_notification" "ext-ing-secondary-region-bucket-notificat
   topic {
     topic_arn = aws_sns_topic.ext-ing-topic-us-west-2.arn
     events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*", "s3:LifecycleExpiration:Delete"]
+    filter_suffix = ".pdf"
   }
 }
 
